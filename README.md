@@ -1,59 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Thiago Barber Web
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sitio web de Thiago Barber desarrollado con Laravel + Vite.
 
-## About Laravel
+La pagina incluye una portada comercial con enfoque visual, videos de TikTok, secciones de servicios/productos/contacto, una vista dedicada de cortes y una vista dedicada de cursos.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Caracteristicas principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Landing page personalizada para barberia.
+- Seccion de TikTok con videos embebidos.
+- Carrusel movil para tarjetas (servicios, productos y TikTok) con indicadores.
+- Google Maps embebido en la seccion de horario/ubicacion.
+- Seccion de cursos con banner y boton de navegacion.
+- Vista separada de cortes (`/cortes`).
+- Vista separada de cursos (`/cursos`).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Rutas
 
-## Learning Laravel
+- `/` Inicio.
+- `/cortes` Catalogo de cortes.
+- `/cursos` Catalogo de cursos disponibles.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP / Laravel
+- Blade
+- CSS personalizado
+- JavaScript (vanilla)
+- Vite
 
-## Laravel Sponsors
+## Instalacion local
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clonar el repositorio.
+2. Instalar dependencias de PHP:
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3. Instalar dependencias de Node:
 
-## Contributing
+```bash
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Crear archivo de entorno:
 
-## Code of Conduct
+```bash
+copy .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Generar key de la aplicacion:
 
-## Security Vulnerabilities
+```bash
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. Levantar servidor Laravel:
 
-## License
+```bash
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. En otra terminal, ejecutar Vite en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+## Build de produccion
+
+```bash
+npm run build
+```
+
+## Personalizacion rapida
+
+- Reemplazar imagenes placeholder en `public/images/`.
+- Actualizar textos y enlaces en las vistas Blade.
+- Ajustar estilos en CSS segun branding.
+- Cambiar/actualizar IDs de videos TikTok en la seccion correspondiente.
+
+## Autor
+
+Proyecto web para Thiago Barber.
