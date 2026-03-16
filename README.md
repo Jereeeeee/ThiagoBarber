@@ -1,6 +1,6 @@
 # Thiago Barber Web
 
-Sitio web de Thiago Barber desarrollado con Laravel + Vite.
+Sitio web de Thiago Barber desarrollado con Laravel y assets estaticos en public.
 
 La pagina incluye una portada comercial con enfoque visual, videos de TikTok, secciones de servicios/productos/contacto, una vista dedicada de cortes y una vista dedicada de cursos.
 
@@ -26,7 +26,7 @@ La pagina incluye una portada comercial con enfoque visual, videos de TikTok, se
 - Blade
 - CSS personalizado
 - JavaScript (vanilla)
-- Vite
+- Assets estaticos en `public/css`, `public/js` e `public/images`
 
 ## Instalacion local
 
@@ -37,41 +37,25 @@ La pagina incluye una portada comercial con enfoque visual, videos de TikTok, se
 composer install
 ```
 
-3. Instalar dependencias de Node:
-
-```bash
-npm install
-```
-
-4. Crear archivo de entorno:
+3. Crear archivo de entorno:
 
 ```bash
 copy .env.example .env
 ```
 
-5. Generar key de la aplicacion:
+4. Generar key de la aplicacion:
 
 ```bash
 php artisan key:generate
 ```
 
-6. Levantar servidor Laravel:
+5. Levantar servidor Laravel:
 
 ```bash
 php artisan serve
 ```
 
-7. En otra terminal, ejecutar Vite en modo desarrollo:
-
-```bash
-npm run dev
-```
-
-## Build de produccion
-
-```bash
-npm run build
-```
+No se requiere compilacion frontend. Los archivos CSS, JS e imagenes se sirven directamente desde `public/`.
 
 ## Personalizacion rapida
 

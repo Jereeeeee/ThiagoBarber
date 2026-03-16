@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-    @vite(['resources/css/welcome.css', 'resources/js/welcome.js'])
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 <body>
     <header class="topbar">
@@ -189,5 +189,6 @@
             <p class="footer-copy">Thiago Barber - MENSAJE EDITABLE .</p>
         </div>
     </footer>
+    <script src="{{ asset('js/welcome.js') }}" defer></script>
 </body>
 </html>

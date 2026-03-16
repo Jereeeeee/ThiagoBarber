@@ -1,21 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# ---------- Build frontend ----------
-FROM node:22-alpine AS frontend-build
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY resources ./resources
-COPY public ./public
-COPY vite.config.js ./
-
-RUN npm run build
-
-
-# ---------- PHP + Apache ----------
 FROM php:8.2-apache
 
 RUN apt-get update \
@@ -39,9 +23,6 @@ WORKDIR /var/www/html
 
 # copiar proyecto
 COPY . .
-
-# copiar assets compilados
-COPY --from=frontend-build /app/public/build ./public/build
 
 # configurar apache para usar carpeta public
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
