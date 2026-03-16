@@ -1,0 +1,50 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-B6Jp6cfS.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/cortes.css": {
+    "file": "assets/cortes-Dj0p-W7h.css",
+    "src": "resources/css/cortes.css",
+    "isEntry": true,
+    "name": "cortes",
+    "names": [
+      "cortes.css"
+    ]
+  },
+  "resources/css/cursos.css": {
+    "file": "assets/cursos-C6WMQW6Q.css",
+    "src": "resources/css/cursos.css",
+    "isEntry": true,
+    "name": "cursos",
+    "names": [
+      "cursos.css"
+    ]
+  },
+  "resources/css/welcome.css": {
+    "file": "assets/welcome-CkumP7TL.css",
+    "src": "resources/css/welcome.css",
+    "isEntry": true,
+    "name": "welcome",
+    "names": [
+      "welcome.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BuG9aa18.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/welcome.js": {
+    "file": "assets/welcome-CSjvheoB.js",
+    "name": "welcome",
+    "src": "resources/js/welcome.js",
+    "isEntry": true
+  }
+}
