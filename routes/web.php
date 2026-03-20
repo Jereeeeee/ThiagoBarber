@@ -13,3 +13,7 @@ Route::get('/cortes', function () {
 Route::get('/cursos', function () {
     return view('cursos');
 })->name('cursos');
+
+Route::get('/productos', function () {
+    return view('productos');
+})->name('productos');

@@ -1,17 +1,5 @@
 const EFFECT_KEY = 'welcome-gradient-effect-played-v2';
 
-const forcePageTopOnEntry = () => {
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-
-    if (window.location.hash) {
-        history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    }
-
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-};
-
 const canUseStorage = () => {
     try {
         const testKey = '__welcome_storage_test__';
@@ -60,107 +48,124 @@ const initMobileCarousels = () => {
         return;
     }
 
-    const carousels = document.querySelectorAll('.courses, .services, .products, .tiktok-grid');
+    const carousel = document.querySelector('.tiktok-grid');
 
-    carousels.forEach((carousel) => {
-        if (carousel.dataset.carouselReady === '1') {
-            return;
-        }
+    if (!carousel || carousel.dataset.carouselReady === '1') {
+        return;
+    }
 
-        const cards = Array.from(carousel.querySelectorAll('.card'));
+    const cards = Array.from(carousel.querySelectorAll('.tiktok-card'));
 
-        if (cards.length <= 1) {
-            return;
-        }
+    if (cards.length <= 1) {
+        return;
+    }
 
-        const dots = document.createElement('div');
-        dots.className = 'carousel-dots';
-        dots.setAttribute('aria-hidden', 'true');
-        const isTikTokCarousel = carousel.classList.contains('tiktok-grid');
-        let counter = null;
+    const dots = document.createElement('div');
+    dots.className = 'carousel-dots tiktok-carousel-dots';
+    dots.setAttribute('aria-hidden', 'true');
 
-        const getActiveIndex = () => {
-            const cardWidth = cards[0].getBoundingClientRect().width;
+    const controls = document.createElement('div');
+    controls.className = 'carousel-controls tiktok-carousel-controls';
 
-            if (cardWidth <= 0) {
-                return 0;
-            }
+    const prevButton = document.createElement('button');
+    prevButton.type = 'button';
+    prevButton.className = 'carousel-nav-btn';
+    prevButton.setAttribute('aria-label', 'Video anterior');
+    prevButton.textContent = '<';
 
-            return Math.min(cards.length - 1, Math.max(0, Math.round(carousel.scrollLeft / cardWidth)));
-        };
+    const counter = document.createElement('span');
+    counter.className = 'carousel-index';
 
-        const setActiveDot = (index) => {
-            dots.querySelectorAll('.carousel-dot').forEach((dot, dotIndex) => {
-                dot.classList.toggle('is-active', dotIndex === index);
-            });
+    const nextButton = document.createElement('button');
+    nextButton.type = 'button';
+    nextButton.className = 'carousel-nav-btn';
+    nextButton.setAttribute('aria-label', 'Siguiente video');
+    nextButton.textContent = '>';
 
-            if (counter) {
-                counter.textContent = `${index + 1}/${cards.length}`;
-            }
-        };
+    let activeIndex = 0;
 
-        const scrollToIndex = (index) => {
-            cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-            setActiveDot(index);
-        };
+    const getOffsets = () => cards.map((card) => card.offsetLeft);
 
-        cards.forEach((_, index) => {
-            const dot = document.createElement('button');
-            dot.type = 'button';
-            dot.className = 'carousel-dot';
-            dot.setAttribute('aria-label', `Ver elemento ${index + 1}`);
-            dot.addEventListener('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                scrollToIndex(index);
-            });
-            dots.appendChild(dot);
+    const setActiveState = (index) => {
+        activeIndex = Math.min(cards.length - 1, Math.max(0, index));
+
+        dots.querySelectorAll('.carousel-dot').forEach((dot, dotIndex) => {
+            dot.classList.toggle('is-active', dotIndex === activeIndex);
         });
 
-        if (isTikTokCarousel) {
-            const controls = document.createElement('div');
-            controls.className = 'carousel-controls tiktok-carousel-controls';
+        counter.textContent = `${activeIndex + 1}/${cards.length}`;
+        prevButton.disabled = activeIndex === 0;
+        nextButton.disabled = activeIndex === cards.length - 1;
+    };
 
-            const prevButton = document.createElement('button');
-            prevButton.type = 'button';
-            prevButton.className = 'carousel-nav-btn';
-            prevButton.setAttribute('aria-label', 'Video anterior');
-            prevButton.textContent = '<';
+    const scrollToIndex = (index) => {
+        const offsets = getOffsets();
+        const targetIndex = Math.min(cards.length - 1, Math.max(0, index));
+        carousel.scrollTo({ left: offsets[targetIndex] ?? 0, behavior: 'smooth' });
+        setActiveState(targetIndex);
+    };
 
-            counter = document.createElement('span');
-            counter.className = 'carousel-index';
+    const getClosestIndex = () => {
+        const offsets = getOffsets();
+        const currentLeft = carousel.scrollLeft;
+        let closestIndex = 0;
+        let closestDistance = Number.POSITIVE_INFINITY;
 
-            const nextButton = document.createElement('button');
-            nextButton.type = 'button';
-            nextButton.className = 'carousel-nav-btn';
-            nextButton.setAttribute('aria-label', 'Siguiente video');
-            nextButton.textContent = '>';
+        offsets.forEach((offset, index) => {
+            const distance = Math.abs(offset - currentLeft);
 
-            prevButton.addEventListener('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                const target = (getActiveIndex() - 1 + cards.length) % cards.length;
-                scrollToIndex(target);
-            });
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
 
-            nextButton.addEventListener('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                const target = (getActiveIndex() + 1) % cards.length;
-                scrollToIndex(target);
-            });
+        return closestIndex;
+    };
 
-            controls.append(prevButton, counter, nextButton);
-            carousel.insertAdjacentElement('afterend', controls);
-            controls.insertAdjacentElement('afterend', dots);
-        } else {
-            carousel.insertAdjacentElement('afterend', dots);
-        }
-
-        carousel.addEventListener('scroll', () => setActiveDot(getActiveIndex()), { passive: true });
-        setActiveDot(0);
-        carousel.dataset.carouselReady = '1';
+    cards.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'carousel-dot';
+        dot.setAttribute('aria-label', `Ver video ${index + 1}`);
+        dot.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            scrollToIndex(index);
+        });
+        dots.appendChild(dot);
     });
+
+    prevButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollToIndex(activeIndex - 1);
+    });
+
+    nextButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollToIndex(activeIndex + 1);
+    });
+
+    carousel.addEventListener(
+        'scroll',
+        () => {
+            setActiveState(getClosestIndex());
+        },
+        { passive: true },
+    );
+
+    window.addEventListener('resize', () => {
+        scrollToIndex(activeIndex);
+    });
+
+    controls.append(prevButton, counter, nextButton);
+    carousel.insertAdjacentElement('afterend', controls);
+    controls.insertAdjacentElement('afterend', dots);
+
+    setActiveState(0);
+    carousel.dataset.carouselReady = '1';
 };
 
 const enableOneTimeEffect = () => {
@@ -189,7 +194,6 @@ const enableOneTimeEffect = () => {
 };
 
 const initWelcomePage = () => {
-    forcePageTopOnEntry();
     enableOneTimeEffect();
     initMobileCarousels();
 };
@@ -199,5 +203,3 @@ if (document.readyState === 'loading') {
 } else {
     initWelcomePage();
 }
-
-window.addEventListener('pageshow', forcePageTopOnEntry);

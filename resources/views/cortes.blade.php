@@ -6,13 +6,13 @@
     <title>Cortes de Pelo | Thiago Barber</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,600&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/cortes.css') }}">
 </head>
 <body>
     <header class="topbar">
         <div class="container nav">
-            <a class="brand" href="{{ route('home') }}">Thiago <span>Barber</span></a>
+            <a class="brand" href="{{ route('home') }}">Thiago <span>Barber</span><small>Since 2018</small></a>
             <a class="back-link" href="{{ route('home') }}">Volver al inicio</a>
         </div>
     </header>

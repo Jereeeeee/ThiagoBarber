@@ -6,7 +6,7 @@
     <title>Thiago Barber</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,600&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 <body>
@@ -14,14 +14,13 @@
         <div class="container nav">
             <ul class="nav-links nav-left">
                 <li><a href="{{ route('cortes') }}">Cortes</a></li>
-                <li><a href="#cursos">Cursos</a></li>
-                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="{{ route('cursos') }}">Cursos</a></li>
+                <li><a href="{{ route('productos') }}">Productos</a></li>
             </ul>
 
-            <div class="brand">Thiago <span>Barber</span></div>
+            <div class="brand">Thiago <span>Barber</span><small>Since 2018</small></div>
 
             <ul class="nav-links nav-right">
-                <li><a href="#estilo">Productos</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
         </div>
@@ -38,7 +37,7 @@
                 </p>
                 <div class="hero-cta">
                     <a class="btn btn-primary" href="{{ route('cortes') }}">Ver catalogo de cortes</a>
-                    <a class="btn btn-secondary" href="#cursos">Ver cursos disponibles</a>
+                    <a class="btn btn-secondary" href="{{ route('cursos') }}">Ver cursos disponibles</a>
                 </div>
             </section>
 
@@ -119,25 +118,25 @@
 
     <section id="servicios" class="section">
         <div class="container">
-            <h3>Servicios</h3>
+            <h3>Cortes de Pelo</h3>
             <div class="services">
                 <article class="card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de corte clasico">
-                    <h4>Corte Clasico</h4>
-                    <p>Degradado, tijera y acabado profesional segun tu estilo.</p>
-                    <p class="price">PRECIO</p>
+                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de low fade">
+                    <h4>Low Fade</h4>
+                    <p>Degradado bajo con transicion limpia y acabado prolijo para un look moderno.</p>
+                    <p class="price">Desde $12.000</p>
                 </article>
                 <article class="card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de barba premium">
-                    <h4>Barba Premium</h4>
-                    <p>Perfilado, toalla caliente y acabado con navaja.</p>
-                    <p class="price">PRECIO</p>
+                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de mid fade">
+                    <h4>Mid Fade</h4>
+                    <p>Fade a media altura con volumen arriba, ideal para estilos urbanos y versatiles.</p>
+                    <p class="price">Desde $13.000</p>
                 </article>
                 <article class="card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de combo total">
-                    <h4>Combo Total</h4>
-                    <p>Corte + barba + ceja para look completo y limpio.</p>
-                    <p class="price">PRECIO</p>
+                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de crop frances">
+                    <h4>Crop Frances</h4>
+                    <p>Corte corto texturizado con flequillo, comodo de mantener y con mucha actitud.</p>
+                    <p class="price">Desde $14.000</p>
                 </article>
             </div>
         </div>
@@ -168,12 +167,15 @@
                     <p>Brillo y control para peinados clasicos con terminacion prolija.</p>
                 </article>
             </div>
+            <div class="courses-cta">
+                <a class="btn btn-primary" href="{{ route('productos') }}">Ver catalogo de productos</a>
+            </div>
         </div>
     </section>
 
     <section id="contacto" class="section">
         <div class="container contact">
-            <h3>Reserva Tu Espacio</h3>
+            <h3>Reserva Tu nuevo corte!</h3>
             <p>Escribenos por WhatsApp o llamanos para rerservar en Thiago Barber.</p>
             <a class="btn btn-primary" href="https://wa.me/56935011486" target="_blank" rel="noopener noreferrer">Ir a WhatsApp</a>
         </div>
