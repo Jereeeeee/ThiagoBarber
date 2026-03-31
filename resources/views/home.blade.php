@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Thiago Barber</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/icon.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/icon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -24,7 +24,9 @@
                 <li><a href="{{ route('cursos') }}">Cursos</a></li>
             </ul>
 
-            <div class="brand">Thiago <span>Barber</span><small>Since 2018</small></div>
+            <a class="brand" href="{{ route('home') }}" aria-label="Inicio Thiago Barber">
+                <img class="brand-logo" src="{{ asset('images/icon.svg') }}" alt="Logo Thiago Barber">
+            </a>
 
             <ul class="nav-links nav-right">
                 <li><a href="{{ route('productos') }}">Productos</a></li>

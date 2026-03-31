@@ -90,39 +90,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 0;
-    min-height: 90px;
+    padding: 10px 0;
+    min-height: 72px;
     gap: 12px;
 }
 
 .brand {
-    font-family: 'Cinzel', serif;
-    letter-spacing: 1.6px;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    line-height: 1.1;
-    text-transform: none;
-    text-align: center;
-    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex: 0 0 auto;
-    color: var(--paper);
-    position: relative;
+    text-decoration: none;
 }
 
-.brand span {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: var(--silver);
-    font-weight: 700;
-}
-
-.brand small {
+.brand-logo {
+    width: clamp(96px, 14vw, 156px);
+    height: auto;
     display: block;
-    margin-top: 2px;
-    font-size: 0.62rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--silver);
-    font-family: 'Manrope', sans-serif;
+    filter: none;
+    opacity: 0.95;
+}
+
+.brand:hover .brand-logo {
+    opacity: 1;
 }
 
 .nav-links {
@@ -517,7 +507,7 @@ h1 {
     }
 
     .hero-grid,
-    .meta,
+        padding: 10px 0;
     .tiktok-grid {
         grid-template-columns: 1fr;
     }
