@@ -76,9 +76,8 @@
 
 <section id="videos" class="section">
     <div class="container">
-        <h3 style="text-align: center; margin-bottom: 2rem;">Resultados en TikTok</h3>
+        <h3 style="text-align: center; margin-bottom: 2rem;">Visita nuestro TikTok</h3>
         <div class="tiktok-grid">
-            
             <!-- Video 1 -->
             <article class="card tiktok-card" style="position: relative;">
                 <a href="https://www.tiktok.com/@thiagobarber31/video/7356809635464203526" target="_blank" rel="noopener" style="text-decoration: none; color: white;">
