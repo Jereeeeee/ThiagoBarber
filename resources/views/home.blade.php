@@ -16,6 +16,9 @@
 </head>
 
 <body>
+    @php
+        $whatsappMessage = rawurlencode('Hola!! 👋 Quiero reservar una hora 💈');
+    @endphp
 
     <header class="topbar">
         <div class="container nav">
@@ -193,7 +196,7 @@
         <div class="container contact">
             <h3>Reserva Tu nuevo corte!</h3>
             <p>Escribenos por WhatsApp o llamanos para rerservar en Thiago Barber.</p>
-            <a class="btn btn-primary" href="https://wa.me/56935011486" target="_blank" rel="noopener noreferrer">Ir a
+            <a class="btn btn-primary" href="https://api.whatsapp.com/send?phone=56935011486&text={{ $whatsappMessage }}" target="_blank" rel="noopener noreferrer">Ir a
                 WhatsApp</a>
         </div>
     </section>
@@ -209,6 +212,14 @@
             <p class="footer-copy">Thiago Barber.</p>
         </div>
     </footer>
+
+    <a class="whatsapp-float" href="https://api.whatsapp.com/send?phone=56935011486&text={{ $whatsappMessage }}" target="_blank" rel="noopener noreferrer" aria-label="Reservar por WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20.5 3.5A11 11 0 0 0 2.6 16.9L2 22l5.3-1.4A11 11 0 1 0 20.5 3.5Zm-8.5 16.7a8.9 8.9 0 0 1-4.5-1.2l-.3-.2-3.2.8.9-3.1-.2-.3a8.9 8.9 0 1 1 7.3 4Zm5.2-6.8c-.3-.2-1.8-.9-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-1 .1-.2-.3-.7-.6-1.2-1.1-.4-.4-.8-.8-1-1.2-.2-.3 0-.5.1-.7.1-.1.3-.4.4-.6.1-.2.1-.4 0-.6 0-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1 1-1 2.4s1 2.7 1.1 2.9c.1.2 2 3.1 4.8 4.4.7.3 1.3.5 1.8.7.7.2 1.3.2 1.8.1.5-.1 1.8-.8 2-1.5.2-.7.2-1.3.1-1.5-.1-.2-.3-.3-.6-.4Z"/>
+        </svg>
+        <span>WhatsApp</span>
+    </a>
+
     <script src="{{ asset('js/home.js') }}" defer></script>
 </body>
 
