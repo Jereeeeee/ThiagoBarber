@@ -138,6 +138,47 @@ php artisan migrate
 php artisan serve
 ```
 
+## Extras:
+
+1. Refrescar base de datos (borra datos actuales)
+
+```bash
+php artisan migrate:fresh
+```
+
+2. Cargar datos iniciales (si existen seeders)
+
+```bash
+php artisan db:seed
+```
+
+3. Crear una nueva migración
+
+```bash
+php artisan make:migration nombre_de_la_migracion
+```
+
+4. Comprobar el estado antes de subir
+Se usa para compactar los archivos de migracion si son demasiados
+``` bash
+php artisan migrate:status
+```
+
+5. Migraciones Squashing(compactar)
+Se usa para compactar los archivos de migracion si son demasiados
+``` bash
+php artisan schema:dump
+```
+
+## Optimizacion
+Limpiar caché de rutas y configuración
+
+```bash
+php artisan optimize:clear
+```
+
+
+
 ## Autores
 
 - Gustavo Paredes | Desarrollador Web Junior | Ingeniero en Informatica
