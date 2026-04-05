@@ -1,5 +1,9 @@
 # Thiago Barber - Plataforma Web
 
+<p align="center">
+	<img src="public/images/icon.svg" alt="Logo Thiago Barber" width="140">
+</p>
+
 Proyecto web desarrollado para una barberia de Quilicura que necesitaba mostrar su marca y vender cursos online de barberia de forma clara, moderna y mantenible.
 
 ## Contexto del proyecto
