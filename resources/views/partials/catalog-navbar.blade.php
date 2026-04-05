@@ -11,9 +11,7 @@
             aria-expanded="false"
             aria-controls="menu-catalogo-movil"
             data-nav-toggle>
-            <span></span>
-            <span></span>
-            <span></span>
+            <img src="{{ asset('images/barra-de-menus.png') }}" alt="Menu">
         </button>
 
         <a class="back-link" href="{{ route('home') }}">Volver al inicio</a>
