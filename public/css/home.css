@@ -144,8 +144,137 @@ body {
     font-family: 'Manrope', sans-serif;
 }
 
+.nav-toggle {
+    display: none;
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 255, 255, 0.04);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.nav-toggle img {
+    width: 22px;
+    height: 22px;
+    display: block;
+    object-fit: contain;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--paper);
+    border-radius: 999px;
+    transition: transform 0.24s ease, opacity 0.24s ease;
+}
+
+[data-nav-root].is-open .nav-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+[data-nav-root].is-open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+[data-nav-root].is-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.nav-mobile {
+    display: none;
+}
+
+.nav-mobile-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-mobile-links a {
+    text-decoration: none;
+    font-family: 'Manrope', sans-serif;
+}
+
 .nav a:hover {
     color: var(--highlight);
+}
+
+@media (max-width: 900px) {
+    .nav {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+            "menu . logo"
+            "panel panel panel";
+        align-items: center;
+        min-height: auto;
+        padding: 12px 0;
+        column-gap: 10px;
+        row-gap: 10px;
+    }
+
+    .nav-left,
+    .nav-right {
+        display: none;
+    }
+
+    .brand {
+        grid-area: logo;
+        grid-row: 1;
+        justify-self: end;
+        margin-left: 0;
+    }
+
+    .brand-logo {
+        width: clamp(92px, 30vw, 124px);
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+        grid-area: menu;
+        grid-row: 1;
+        justify-self: start;
+        margin-right: 0;
+    }
+
+    .nav-mobile {
+        grid-area: panel;
+        grid-row: 2;
+        width: 100%;
+        display: block;
+        border: 1px solid var(--line-strong);
+        border-radius: 16px;
+        background: rgba(9, 9, 9, 0.92);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+    }
+
+    .nav-mobile[hidden] {
+        display: none;
+    }
+
+    .nav-mobile-links li + li {
+        border-top: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .nav-mobile-links a {
+        display: block;
+        padding: 13px 14px;
+        color: var(--paper);
+        font-size: 0.84rem;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .nav-mobile-links a:hover {
+        background: rgba(255, 255, 255, 0.06);
+    }
 }
 
 .btn {

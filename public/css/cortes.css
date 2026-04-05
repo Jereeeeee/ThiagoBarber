@@ -1,3 +1,5 @@
+@import url('components/catalog-navbar.css');
+
 :root {
     --ink: #0a0a0a;
     --coal: #161616;
@@ -36,63 +38,6 @@ body {
     margin: 0 auto;
 }
 
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    backdrop-filter: blur(10px);
-    background: rgba(10, 10, 10, 0.84);
-    border-bottom: 1px solid var(--line-strong);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-}
-
-.nav {
-    min-height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.brand {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-}
-
-.brand-logo {
-    width: clamp(96px, 14vw, 156px);
-    height: auto;
-    display: block;
-    opacity: 0.95;
-}
-
-.brand:hover .brand-logo {
-    opacity: 1;
-}
-
-.back-link {
-    text-decoration: none;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    padding: 10px 16px;
-    font-size: 0.86rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--paper);
-    background: rgba(255, 255, 255, 0.03);
-    font-family: 'Manrope', sans-serif;
-    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.back-link:hover {
-    border-color: rgba(255, 255, 255, 0.9);
-    color: var(--highlight);
-    transform: translateY(-2px);
-}
 
 .gallery-page,
 .courses-page {
@@ -209,19 +154,6 @@ h1 {
 }
 
 @media (max-width: 680px) {
-    .nav {
-        min-height: auto;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 0;
-    }
-
-    .brand {
-        text-align: center;
-    }
-
     .intro {
         padding: 22px;
     }
