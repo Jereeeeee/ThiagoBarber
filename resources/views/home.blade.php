@@ -1,4 +1,4 @@
-@extends('layouts.site')
+﻿@extends('layouts.site')
 
 @section('title', 'Thiago Barber')
 
@@ -49,39 +49,50 @@
         </div>
     </main>
 
-    <section id="videos" class="section">
+    <section id="videos" class="section tiktok-section" data-tiktok-carousel>
         <div class="container">
-            <h3 style="text-align: center; margin-bottom: 2rem;">Visita nuestro TikTok</h3>
-            <div class="tiktok-grid">
-                <article class="card tiktok-card" style="position: relative;">
-                    <a href="https://www.tiktok.com/@thiagobarber31/video/7356809635464203526" target="_blank"
-                        rel="noopener" style="text-decoration: none; color: white;">
-                        <video class="tiktok-frame" src="{{ asset('videos/7356809635464203526.mp4') }}" autoplay loop muted
-                            playsinline
-                            style="object-fit: cover; width: 100%; height: 100%; display: block; border-radius: 15px;">
-                        </video>
-                    </a>
-                </article>
+            <h3 class="tiktok-title">Visita nuestro TikTok</h3>
 
-                <article class="card tiktok-card" style="position: relative;">
-                    <a href="https://www.tiktok.com/@thiagobarber31/video/7351215632354004230" target="_blank"
-                        rel="noopener" style="text-decoration: none; color: white;">
-                        <video class="tiktok-frame" src="{{ asset('videos/7351215632354004230.mp4') }}" autoplay loop muted
-                            playsinline
-                            style="object-fit: cover; width: 100%; height: 100%; display: block; border-radius: 15px;">
-                        </video>
-                    </a>
-                </article>
+            <div class="tiktok-shell" role="region" aria-label="Carrusel de videos de TikTok">
+                <button class="tiktok-nav tiktok-nav-prev" type="button" aria-label="Video anterior">
+                    <span aria-hidden="true">&larr;</span>
+                </button>
 
-                <article class="card tiktok-card" style="position: relative;">
-                    <a href="https://www.tiktok.com/@thiagobarber31/video/7349362441823735045" target="_blank"
-                        rel="noopener" style="text-decoration: none; color: white;">
-                        <video class="tiktok-frame" src="{{ asset('videos/7349362441823735045.mp4') }}" autoplay loop muted
-                            playsinline
-                            style="object-fit: cover; width: 100%; height: 100%; display: block; border-radius: 15px;">
-                        </video>
-                    </a>
-                </article>
+                <div class="tiktok-track" data-tiktok-track>
+                    <article class="tiktok-slide is-active" data-tiktok-slide>
+                        <a class="tiktok-link" href="https://www.tiktok.com/@thiagobarber31/video/7356809635464203526" target="_blank"
+                            rel="noopener noreferrer" aria-label="Ver video 1 en TikTok">
+                            <video class="tiktok-video" src="{{ asset('videos/7356809635464203526.mp4') }}" muted loop playsinline
+                                preload="metadata"></video>
+                        </a>
+                    </article>
+
+                    <article class="tiktok-slide" data-tiktok-slide>
+                        <a class="tiktok-link" href="https://www.tiktok.com/@thiagobarber31/video/7351215632354004230" target="_blank"
+                            rel="noopener noreferrer" aria-label="Ver video 2 en TikTok">
+                            <video class="tiktok-video" src="{{ asset('videos/7351215632354004230.mp4') }}" muted loop playsinline
+                                preload="none"></video>
+                        </a>
+                    </article>
+
+                    <article class="tiktok-slide" data-tiktok-slide>
+                        <a class="tiktok-link" href="https://www.tiktok.com/@thiagobarber31/video/7349362441823735045" target="_blank"
+                            rel="noopener noreferrer" aria-label="Ver video 3 en TikTok">
+                            <video class="tiktok-video" src="{{ asset('videos/7349362441823735045.mp4') }}" muted loop playsinline
+                                preload="none"></video>
+                        </a>
+                    </article>
+                </div>
+
+                <button class="tiktok-nav tiktok-nav-next" type="button" aria-label="Siguiente video">
+                    <span aria-hidden="true">&rarr;</span>
+                </button>
+            </div>
+
+            <div class="tiktok-dots" aria-label="Indicadores de videos">
+                <button class="tiktok-dot is-active" type="button" data-tiktok-dot="0" aria-label="Ir al video 1"></button>
+                <button class="tiktok-dot" type="button" data-tiktok-dot="1" aria-label="Ir al video 2"></button>
+                <button class="tiktok-dot" type="button" data-tiktok-dot="2" aria-label="Ir al video 3"></button>
             </div>
         </div>
     </section>

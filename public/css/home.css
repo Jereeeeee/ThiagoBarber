@@ -513,35 +513,96 @@ h1 {
     margin-bottom: 8px;
 }
 
-.tiktok-grid {
+.tiktok-section {
+    background: transparent;
+}
+
+.tiktok-title {
+    text-align: center;
+    margin-bottom: 1.4rem;
+}
+
+.tiktok-shell {
+    position: relative;
+}
+
+.tiktok-track {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    justify-content: stretch;
     gap: 16px;
-    align-items: stretch;
 }
 
-.tiktok-card {
-    padding: 0;
-    height: auto;
-    aspect-ratio: 9 / 16;
-    display: flex;
-    overflow: hidden;
-}
-
-.tiktok-frame {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
+.tiktok-slide {
+    position: relative;
     overflow: hidden;
     border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: #000;
+    aspect-ratio: 9 / 16;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.36);
+}
+
+.tiktok-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tiktok-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     background: #000;
 }
 
-.carousel-dots,
-.carousel-controls {
+.tiktok-nav,
+.tiktok-dots {
     display: none;
+}
+
+.tiktok-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    color: #ffffff;
+    background: rgba(10, 10, 10, 0.72);
+    cursor: pointer;
+    z-index: 5;
+}
+
+.tiktok-nav-prev {
+    left: 10px;
+}
+
+.tiktok-nav-next {
+    right: 10px;
+}
+
+.tiktok-dots {
+    margin-top: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.tiktok-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 0;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.34);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.tiktok-dot.is-active {
+    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.3);
 }
 
 .contact {
@@ -645,10 +706,8 @@ h1 {
         grid-template-columns: 1fr 1fr;
     }
 
-    .tiktok-grid {
-        grid-template-columns: 1fr 1fr;
-        justify-content: center;
-        gap: 16px;
+    .tiktok-track {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -691,10 +750,6 @@ h1 {
         order: 2;
     }
 
-    .tiktok-grid {
-        grid-template-columns: 1fr;
-    }
-
     .courses,
     .services,
     .products {
@@ -704,115 +759,64 @@ h1 {
         padding-bottom: 0;
     }
 
-    .tiktok-grid {
-        grid-template-columns: none;
-        grid-auto-flow: column;
-        grid-auto-columns: 100%;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-        padding-bottom: 8px;
-        scrollbar-width: none;
-    }
-
     .courses .card,
     .services .card,
-    .products .card,
-    .tiktok-grid .tiktok-card {
+    .products .card {
         scroll-snap-align: start;
     }
 
     .courses::-webkit-scrollbar,
     .services::-webkit-scrollbar,
-    .products::-webkit-scrollbar,
-    .tiktok-grid::-webkit-scrollbar {
+    .products::-webkit-scrollbar {
         display: none;
     }
 
-    .carousel-dots {
-        display: none;
+    .tiktok-shell {
+        margin-inline: calc(50% - 50vw);
+        width: 100vw;
+        padding: 0 0 10px;
     }
 
-    .carousel-controls {
-        display: none;
-    }
-
-    .tiktok-carousel-dots {
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .tiktok-track {
+        position: relative;
+        display: block;
         width: 100%;
-        gap: 8px;
+        min-height: calc(100vh - 170px);
+        overflow: hidden;
+        border-radius: 0;
     }
 
-    .tiktok-carousel-controls {
-        margin-top: 14px;
-        display: flex;
-        width: fit-content;
-        margin-inline: auto;
-        padding: 0;
-        justify-content: center;
-        align-items: center;
-        gap: 28px;
-    }
-
-    .carousel-nav-btn {
-        width: 34px;
-        height: 34px;
-        border-radius: 999px;
-        border: 1px solid var(--line-strong);
-        background: rgba(10, 10, 10, 0.78);
-        color: var(--paper);
-        font-size: 0.95rem;
-        font-weight: 800;
-    }
-
-    .tiktok-carousel-controls .carousel-nav-btn {
-        width: 46px;
-        height: 46px;
-        font-size: 1.05rem;
-        border-color: rgba(255, 255, 255, 0.6);
-        background: rgba(10, 10, 10, 0.92);
-    }
-
-    .tiktok-carousel-controls {
-        gap: 28px;
-    }
-
-    .tiktok-carousel-controls .carousel-nav-btn {
-        transform: translateY(1px);
-    }
-
-    .carousel-index {
-        min-width: 46px;
-        text-align: center;
-        color: var(--paper);
-        font-size: 0.8rem;
-        font-weight: 700;
-        font-family: 'Manrope', sans-serif;
-    }
-
-    .carousel-dot {
-        width: 8px;
-        height: 8px;
+    .tiktok-slide {
+        position: absolute;
+        inset: 0;
+        border-radius: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(10px);
+        transition: opacity 380ms ease, transform 380ms ease;
+        box-shadow: none;
         border: 0;
-        padding: 0;
-        cursor: pointer;
-        border-radius: 999px;
-        background: rgba(246, 243, 238, 0.32);
-        transition: transform 0.2s ease, background-color 0.2s ease;
     }
 
-    .carousel-dot.is-active {
-        background: rgba(255, 255, 255, 0.95);
-        transform: scale(1.25);
+    .tiktok-slide.is-active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0);
     }
 
-    .carousel-nav-btn:disabled {
-        opacity: 0.35;
+    .tiktok-video {
+        height: 100%;
+        width: 100%;
+    }
+
+    .tiktok-nav {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tiktok-dots {
+        display: flex;
     }
 
     .hero {
