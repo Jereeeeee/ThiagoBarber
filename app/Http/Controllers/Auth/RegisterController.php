@@ -24,6 +24,7 @@ class RegisterController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
+            'role_id' => 2,
         ]);
 
         Auth::login($user);

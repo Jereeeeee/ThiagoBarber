@@ -8,7 +8,7 @@
 
 @section('content')
     @php
-        $whatsappMessage = rawurlencode('Hola!! 👋 Quiero reservar una hora');
+        $whatsappMessage = rawurlencode('Hola!! 👋 Quiero reservar una hora 💈');
     @endphp
 
     @include('partials.home-navbar')
@@ -193,7 +193,7 @@
         </div>
     </footer>
 
-    <a class="whatsapp-float" href="https://api.whatsapp.com/send?phone=56935011486&text={{ urlencode($whatsappMessage) }}"
+    <a class="whatsapp-float" href="https://api.whatsapp.com/send?phone=56935011486&text={{ $whatsappMessage }}"
         target="_blank" rel="noopener noreferrer" aria-label="Reservar por WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <path fill="currentColor"

@@ -17,9 +17,11 @@
                 Seleccionamos productos profesionales para peinar, hidratar y mantener tu look de barberia.
                 Administra este catalogo desde aqui para agregar, editar o eliminar productos cuando quieras.
             </p>
-            <div class="intro-actions">
-                <button class="catalog-button" type="button" data-open-producto-modal>Agregar Nuevo Producto</button>
-            </div>
+            @if ($administradores)
+                <div class="intro-actions">
+                    <button class="catalog-button" type="button" data-open-producto-modal>Agregar Nuevo Producto</button>
+                </div>
+            @endif
         </section>
 
         @if (session('success'))
@@ -37,34 +39,36 @@
         <section class="container products-grid" aria-label="Catalogo de productos disponibles">
             @forelse ($productos as $producto)
                 <article class="product-card">
-                    <div class="card-actions" aria-label="Acciones de tarjeta">
-                        <button
-                            type="button"
-                            class="card-icon-button"
-                            data-open-edit-modal
-                            data-producto-id="{{ $producto->id }}"
-                            data-producto-title="{{ $producto->titulo }}"
-                            data-producto-description="{{ $producto->descripcion }}"
-                            data-producto-badge="{{ $producto->etiqueta }}"
-                            data-producto-price="{{ $producto->precio }}"
-                            data-producto-image="{{ asset($producto->imagen_path) }}"
-                            aria-label="Editar tarjeta {{ $producto->titulo }}"
-                            title="Editar tarjeta"
-                        >
-                            &#9998;
-                        </button>
-                        <button
-                            type="button"
-                            class="card-icon-button danger"
-                            data-open-delete-modal
-                            data-producto-id="{{ $producto->id }}"
-                            data-producto-title="{{ $producto->titulo }}"
-                            aria-label="Eliminar tarjeta {{ $producto->titulo }}"
-                            title="Eliminar tarjeta"
-                        >
-                            &times;
-                        </button>
-                    </div>
+                    @if ($administradores)
+                        <div class="card-actions" aria-label="Acciones de tarjeta">
+                            <button
+                                type="button"
+                                class="card-icon-button"
+                                data-open-edit-modal
+                                data-producto-id="{{ $producto->id }}"
+                                data-producto-title="{{ $producto->titulo }}"
+                                data-producto-description="{{ $producto->descripcion }}"
+                                data-producto-badge="{{ $producto->etiqueta }}"
+                                data-producto-price="{{ $producto->precio }}"
+                                data-producto-image="{{ asset($producto->imagen_path) }}"
+                                aria-label="Editar tarjeta {{ $producto->titulo }}"
+                                title="Editar tarjeta"
+                            >
+                                &#9998;
+                            </button>
+                            <button
+                                type="button"
+                                class="card-icon-button danger"
+                                data-open-delete-modal
+                                data-producto-id="{{ $producto->id }}"
+                                data-producto-title="{{ $producto->titulo }}"
+                                aria-label="Eliminar tarjeta {{ $producto->titulo }}"
+                                title="Eliminar tarjeta"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    @endif
 
                     <img src="{{ asset($producto->imagen_path) }}" alt="{{ $producto->titulo }}">
                     <h2>{{ $producto->titulo }}</h2>
@@ -83,6 +87,7 @@
         </section>
     </main>
 
+    @if ($administradores)
     <div class="modal-overlay" data-producto-modal hidden>
         <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="producto-modal-title">
             <div class="modal-header">
@@ -223,23 +228,24 @@
             <div class="modal-header">
                 <div>
                     <p class="kicker">Eliminar producto</p>
-                    <h2 id="delete-producto-modal-title">Confirmar eliminacion</h2>
+                    <h2 id="delete-producto-modal-title">Eliminar producto</h2>
                 </div>
                 <button type="button" class="modal-close" aria-label="Cerrar eliminacion" data-close-delete-modal>&times;</button>
             </div>
 
-            <p class="delete-copy">Vas a eliminar la tarjeta <strong data-delete-title></strong>. Esta accion no se puede deshacer.</p>
+            <p class="delete-copy">Vas a eliminar el producto <strong data-delete-title></strong>. Esta accion no se puede deshacer.</p>
 
             <form data-delete-form method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="form-actions">
                     <button type="button" class="ghost-button" data-close-delete-modal>Cancelar</button>
-                    <button type="submit" class="danger-button">Eliminar tarjeta</button>
+                    <button type="submit" class="danger-button">Eliminar producto</button>
                 </div>
             </form>
         </div>
     </div>
+    @endif
 @endsection
 
 @push('scripts')
@@ -468,11 +474,11 @@
                 deleteSubmitButton.textContent = 'Eliminando...';
             });
 
-            @if ($errors->storeProducto->any())
+            @if ($administradores && $errors->storeProducto->any())
                 openModal();
             @endif
 
-            @if ($errors->updateProducto->any())
+            @if ($administradores && $errors->updateProducto->any())
                 const oldProductoId = '{{ old('producto_id') }}';
                 const oldProductoButton = document.querySelector(`[data-open-edit-modal][data-producto-id="${oldProductoId}"]`);
 

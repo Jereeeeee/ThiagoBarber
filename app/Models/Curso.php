@@ -23,11 +23,22 @@ class Curso extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'title',
+        'titulo',
         'slug',
-        'level',
-        'price',
+        'descripcion',
+        'imagen_path',
+        'precio',
         'is_active',
+    ];
+
+    /**
+     * Convertir atributos a tipos nativos.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'precio' => 'decimal:2',
+        'is_active' => 'boolean',
     ];
 
     /**

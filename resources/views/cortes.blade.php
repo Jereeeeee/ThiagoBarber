@@ -17,9 +17,11 @@
                 Esta vista esta dedicada solo a cortes. Puedes reemplazar cada imagen por tus fotos reales
                 cuando las tengas listas y mantener el mismo orden del catalogo.
             </p>
-            <div class="intro-actions">
-                <button class="catalog-button" type="button" data-open-corte-modal>Agregar Nuevo Corte</button>
-            </div>
+            @if ($administradores)
+                <div class="intro-actions">
+                    <button class="catalog-button" type="button" data-open-corte-modal>Agregar Nuevo Corte</button>
+                </div>
+            @endif
         </section>
 
         @if (session('success'))
@@ -37,31 +39,33 @@
         <section class="container cuts-grid" aria-label="Galeria de cortes de pelo">
             @forelse ($cortes as $corte)
                 <article class="cut-card">
-                    <div class="card-actions" aria-label="Acciones de tarjeta">
-                        <button
-                            type="button"
-                            class="card-icon-button"
-                            data-open-edit-modal
-                            data-corte-id="{{ $corte->id }}"
-                            data-corte-title="{{ $corte->titulo }}"
-                            data-corte-image="{{ asset($corte->imagen_path) }}"
-                            aria-label="Editar tarjeta {{ $corte->titulo }}"
-                            title="Editar tarjeta"
-                        >
-                            &#9998;
-                        </button>
-                        <button
-                            type="button"
-                            class="card-icon-button danger"
-                            data-open-delete-modal
-                            data-corte-id="{{ $corte->id }}"
-                            data-corte-title="{{ $corte->titulo }}"
-                            aria-label="Eliminar tarjeta {{ $corte->titulo }}"
-                            title="Eliminar tarjeta"
-                        >
-                            &times;
-                        </button>
-                    </div>
+                    @if ($administradores)
+                        <div class="card-actions" aria-label="Acciones de tarjeta">
+                            <button
+                                type="button"
+                                class="card-icon-button"
+                                data-open-edit-modal
+                                data-corte-id="{{ $corte->id }}"
+                                data-corte-title="{{ $corte->titulo }}"
+                                data-corte-image="{{ asset($corte->imagen_path) }}"
+                                aria-label="Editar tarjeta {{ $corte->titulo }}"
+                                title="Editar tarjeta"
+                            >
+                                &#9998;
+                            </button>
+                            <button
+                                type="button"
+                                class="card-icon-button danger"
+                                data-open-delete-modal
+                                data-corte-id="{{ $corte->id }}"
+                                data-corte-title="{{ $corte->titulo }}"
+                                aria-label="Eliminar tarjeta {{ $corte->titulo }}"
+                                title="Eliminar tarjeta"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    @endif
 
                     <img src="{{ asset($corte->imagen_path) }}" alt="{{ $corte->titulo }}">
                     <h2>{{ $corte->titulo }}</h2>
@@ -75,6 +79,7 @@
         </section>
     </main>
 
+    @if ($administradores)
     <div class="modal-overlay" data-corte-modal hidden>
         <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="corte-modal-title">
             <div class="modal-header">
@@ -167,23 +172,24 @@
             <div class="modal-header">
                 <div>
                     <p class="kicker">Eliminar corte</p>
-                    <h2 id="delete-corte-modal-title">Confirmar eliminacion</h2>
+                    <h2 id="delete-corte-modal-title">Eliminar corte</h2>
                 </div>
                 <button type="button" class="modal-close" aria-label="Cerrar eliminacion" data-close-delete-modal>&times;</button>
             </div>
 
-            <p class="delete-copy">Vas a eliminar la tarjeta <strong data-delete-title></strong>. Esta accion no se puede deshacer.</p>
+            <p class="delete-copy">Vas a eliminar el corte <strong data-delete-title></strong>. Esta accion no se puede deshacer.</p>
 
             <form data-delete-form method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="form-actions">
                     <button type="button" class="ghost-button" data-close-delete-modal>Cancelar</button>
-                    <button type="submit" class="danger-button">Eliminar tarjeta</button>
+                    <button type="submit" class="danger-button">Eliminar corte</button>
                 </div>
             </form>
         </div>
     </div>
+    @endif
 @endsection
 
 @push('scripts')
@@ -294,19 +300,19 @@
             closeEditButtons.forEach((button) => button.addEventListener('click', closeEditModal));
             closeDeleteButtons.forEach((button) => button.addEventListener('click', closeDeleteModal));
 
-            modal.addEventListener('click', (event) => {
+            modal?.addEventListener('click', (event) => {
                 if (event.target === modal) {
                     closeModal();
                 }
             });
 
-            editModal.addEventListener('click', (event) => {
+            editModal?.addEventListener('click', (event) => {
                 if (event.target === editModal) {
                     closeEditModal();
                 }
             });
 
-            deleteModal.addEventListener('click', (event) => {
+            deleteModal?.addEventListener('click', (event) => {
                 if (event.target === deleteModal) {
                     closeDeleteModal();
                 }
@@ -368,11 +374,11 @@
                 deleteSubmitButton.textContent = 'Eliminando...';
             });
 
-            @if ($errors->storeCorte->any())
+            @if ($administradores && $errors->storeCorte->any())
                 openModal();
             @endif
 
-            @if ($errors->updateCorte->any())
+            @if ($administradores && $errors->updateCorte->any())
                 const oldCorteId = '{{ old('corte_id') }}';
                 const oldCorteButton = document.querySelector(`[data-open-edit-modal][data-corte-id="${oldCorteId}"]`);
 

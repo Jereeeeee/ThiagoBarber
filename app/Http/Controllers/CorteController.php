@@ -6,6 +6,7 @@ use App\Http\Requests\Corte\StoreCorteRequest;
 use App\Http\Requests\Corte\UpdateCorteRequest;
 use App\Models\Corte;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -28,6 +29,7 @@ class CorteController extends Controller
         return view('cortes', [
             'cortes' => Corte::query()->latest()->get(),
             'submissionToken' => $submissionToken,
+            'administradores' => $this->administradores(),
         ]);
     }
 
@@ -36,6 +38,12 @@ class CorteController extends Controller
      */
     public function store(StoreCorteRequest $request): RedirectResponse
     {
+        if (! $this->administradores()) {
+            return redirect()
+                ->route('cortes')
+                ->with('error', 'No tienes permisos para agregar cortes.');
+        }
+
         $validated = $request->validated();
         $submissionTokens = session('corte_submission_tokens', []);
         $tokenIndex = array_search($validated['submission_token'], $submissionTokens, true);
@@ -74,6 +82,12 @@ class CorteController extends Controller
      */
     public function update(UpdateCorteRequest $request, Corte $corte): RedirectResponse
     {
+        if (! $this->administradores()) {
+            return redirect()
+                ->route('cortes')
+                ->with('error', 'No tienes permisos para editar cortes.');
+        }
+
         $validated = $request->validated();
         $newImagePath = $corte->imagen_path;
 
@@ -111,6 +125,12 @@ class CorteController extends Controller
      */
     public function destroy(int $corte): RedirectResponse
     {
+        if (! $this->administradores()) {
+            return redirect()
+                ->route('cortes')
+                ->with('error', 'No tienes permisos para eliminar cortes.');
+        }
+
         $corteModel = Corte::query()->find($corte);
 
         if (! $corteModel instanceof Corte) {
@@ -132,5 +152,19 @@ class CorteController extends Controller
         return redirect()
             ->route('cortes')
             ->with('success', 'La tarjeta del corte fue eliminada correctamente.');
+    }
+
+    /**
+     * Indicar si el usuario autenticado puede gestionar el catalogo.
+     */
+    private function administradores(): bool
+    {
+        $user = Auth::user();
+
+        if (! $user) {
+            return false;
+        }
+
+        return in_array((int) $user->role_id, [1, 3], true);
     }
 }

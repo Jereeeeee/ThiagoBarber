@@ -6,6 +6,7 @@ use App\Http\Requests\Producto\StoreProductoRequest;
 use App\Http\Requests\Producto\UpdateProductoRequest;
 use App\Models\Producto;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -28,6 +29,7 @@ class ProductoController extends Controller
         return view('productos', [
             'productos' => Producto::query()->latest()->get(),
             'submissionToken' => $submissionToken,
+            'administradores' => $this->administradores(),
         ]);
     }
 
@@ -36,6 +38,12 @@ class ProductoController extends Controller
      */
     public function store(StoreProductoRequest $request): RedirectResponse
     {
+        if (! $this->administradores()) {
+            return redirect()
+                ->route('productos')
+                ->with('error', 'No tienes permisos para agregar productos.');
+        }
+
         $validated = $request->validated();
         $submissionTokens = session('producto_submission_tokens', []);
         $tokenIndex = array_search($validated['submission_token'], $submissionTokens, true);
@@ -77,6 +85,12 @@ class ProductoController extends Controller
      */
     public function update(UpdateProductoRequest $request, Producto $producto): RedirectResponse
     {
+        if (! $this->administradores()) {
+            return redirect()
+                ->route('productos')
+                ->with('error', 'No tienes permisos para editar productos.');
+        }
+
         $validated = $request->validated();
         $newImagePath = $producto->imagen_path;
 
@@ -117,6 +131,12 @@ class ProductoController extends Controller
      */
     public function destroy(int $producto): RedirectResponse
     {
+        if (! $this->administradores()) {
+            return redirect()
+                ->route('productos')
+                ->with('error', 'No tienes permisos para eliminar productos.');
+        }
+
         $productoModel = Producto::query()->find($producto);
 
         if (! $productoModel instanceof Producto) {
@@ -138,5 +158,19 @@ class ProductoController extends Controller
         return redirect()
             ->route('productos')
             ->with('success', 'La tarjeta del producto fue eliminada correctamente.');
+    }
+
+    /**
+     * Indicar si el usuario autenticado puede gestionar el catalogo.
+     */
+    private function administradores(): bool
+    {
+        $user = Auth::user();
+
+        if (! $user) {
+            return false;
+        }
+
+        return in_array((int) $user->role_id, [1, 3], true);
     }
 }
