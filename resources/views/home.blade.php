@@ -116,24 +116,20 @@
         <div class="container">
             <h3>Cortes de Pelo</h3>
             <div class="services">
-                <article class="card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de low fade">
-                    <h4>Low Fade</h4>
-                    <p>Degradado bajo con transicion limpia y acabado prolijo para un look moderno.</p>
-                    <p class="price">Desde $12.000</p>
-                </article>
-                <article class="card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de mid fade">
-                    <h4>Mid Fade</h4>
-                    <p>Fade a media altura con volumen arriba, ideal para estilos urbanos y versatiles.</p>
-                    <p class="price">Desde $13.000</p>
-                </article>
-                <article class="card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Imagen de crop frances">
-                    <h4>Crop Frances</h4>
-                    <p>Corte corto texturizado con flequillo, comodo de mantener y con mucha actitud.</p>
-                    <p class="price">Desde $14.000</p>
-                </article>
+                @forelse ($cortes as $corte)
+                    <article class="card">
+                        <img class="card-image" src="{{ asset($corte->imagen_path) }}" alt="{{ $corte->titulo }}">
+                        <h4>{{ $corte->titulo }}</h4>
+                    </article>
+                @empty
+                    <article class="card">
+                        <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Sin cortes disponibles">
+                        <h4>Sin cortes disponibles</h4>
+                    </article>
+                @endforelse
+            </div>
+            <div class="courses-cta">
+                <a class="btn btn-primary" href="{{ route('cortes') }}">Ver mas</a>
             </div>
         </div>
     </section>
@@ -142,33 +138,26 @@
         <div class="container">
             <h3>Nuestros Productos</h3>
             <div class="products">
-                <article class="card product-card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}"
-                        alt="Imagen de cera para el cabello">
-                    <h4>Ceras</h4>
-                    <p>Fijacion flexible o fuerte para peinar y definir el estilo durante todo el dia.</p>
-                </article>
-                <article class="card product-card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}"
-                        alt="Imagen de crema de peinado">
-                    <h4>Cremas</h4>
-                    <p>Acabado natural con hidratacion para controlar el volumen sin rigidez.</p>
-                </article>
-                <article class="card product-card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}"
-                        alt="Imagen de polvo texturizante">
-                    <h4>Polvos</h4>
-                    <p>Textura instantanea y efecto mate para dar cuerpo y movimiento al cabello.</p>
-                </article>
-                <article class="card product-card">
-                    <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}"
-                        alt="Imagen de pomada para cabello">
-                    <h4>Pomadas</h4>
-                    <p>Brillo y control para peinados clasicos con terminacion prolija.</p>
-                </article>
+                @forelse ($productos as $producto)
+                    @php
+                        $productoImageSrc = str_starts_with($producto->imagen_path, 'data:image')
+                            ? $producto->imagen_path
+                            : asset($producto->imagen_path);
+                    @endphp
+                    <article class="card product-card">
+                        <img class="card-image" src="{{ $productoImageSrc }}" alt="{{ $producto->titulo }}">
+                        <h4>{{ $producto->titulo }}</h4>
+                        <p>{{ $producto->descripcion }}</p>
+                    </article>
+                @empty
+                    <article class="card product-card">
+                        <img class="card-image" src="{{ asset('images/placeholder-card.svg') }}" alt="Sin productos disponibles">
+                        <h4>Sin productos disponibles</h4>
+                    </article>
+                @endforelse
             </div>
             <div class="courses-cta">
-                <a class="btn btn-primary" href="{{ route('productos') }}">Ver catalogo de productos</a>
+                <a class="btn btn-primary" href="{{ route('productos') }}">Ver mas</a>
             </div>
         </div>
     </section>

@@ -42,8 +42,10 @@
                         <label for="email">Correo</label>
                         <input id="email" name="email" type="email" value="{{ old('auth_mode') === 'login' ? old('email') : '' }}" autocomplete="username" required>
 
-                        <label for="password">Contrasena</label>
+                        <label for="password">Contraseña</label>
                         <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+                        <a class="auth-link-inline" href="{{ route('contrasena.olvidada') }}">Olvide mi contraseña</a>
 
                         <label class="auth-check" for="remember">
                             <input id="remember" name="remember" type="checkbox" value="1" {{ old('remember') ? 'checked' : '' }}>
@@ -73,10 +75,10 @@
                         <label for="register-email">Correo</label>
                         <input id="register-email" name="email" type="email" value="{{ old('auth_mode') === 'register' ? old('email') : '' }}" autocomplete="email" required>
 
-                        <label for="register-password">Contrasena</label>
+                        <label for="register-password">Contraseña</label>
                         <input id="register-password" name="password" type="password" autocomplete="new-password" required>
 
-                        <label for="password_confirmation">Confirmar contrasena</label>
+                        <label for="password_confirmation">Confirmar contraseña</label>
                         <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required>
 
                         <button type="submit" class="btn-primary">Crear cuenta</button>

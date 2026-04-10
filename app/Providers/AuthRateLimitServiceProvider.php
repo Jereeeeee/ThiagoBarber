@@ -18,6 +18,8 @@ class AuthRateLimitServiceProvider extends ServiceProvider
     {
         $this->defineLoginLimit();
         $this->defineRegisterLimit();
+        $this->definePasswordResetRequestLimit();
+        $this->definePasswordResetVerifyLimit();
     }
 
     /**
@@ -48,6 +50,46 @@ class AuthRateLimitServiceProvider extends ServiceProvider
                     return back()->withErrors([
                         'rate_limit' => 'Demasiados intentos de registro. Por seguridad, espera un minuto antes de volver a intentarlo.',
                     ]);
+                });
+        });
+    }
+
+    /**
+     * Configurar el limite de solicitudes para envio de codigo de recuperacion.
+     *
+     * @return void
+     */
+    private function definePasswordResetRequestLimit(): void
+    {
+        RateLimiter::for('password-reset-request', function (Request $request) {
+            $email = (string) $request->input('email');
+
+            return Limit::perMinute(3)
+                ->by($email.'|'.$request->ip())
+                ->response(function () {
+                    return back()->withErrors([
+                        'email' => 'Has solicitado demasiados codigos. Espera un minuto para intentar nuevamente.',
+                    ])->withInput();
+                });
+        });
+    }
+
+    /**
+     * Configurar el limite de intentos para verificacion de codigo.
+     *
+     * @return void
+     */
+    private function definePasswordResetVerifyLimit(): void
+    {
+        RateLimiter::for('password-reset-verify', function (Request $request) {
+            $email = (string) $request->input('email');
+
+            return Limit::perMinute(10)
+                ->by($email.'|'.$request->ip())
+                ->response(function () {
+                    return back()->withErrors([
+                        'code' => 'Demasiados intentos de verificacion. Espera un minuto para reintentar.',
+                    ])->withInput();
                 });
         });
     }

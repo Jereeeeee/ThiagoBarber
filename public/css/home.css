@@ -453,6 +453,8 @@ h1 {
 
 .courses-cta {
     margin-top: 14px;
+    display: flex;
+    justify-content: center;
 }
 
 .card {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Corte;
+use App\Models\Producto;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -13,7 +15,10 @@ class PageController extends Controller
      */
     public function home(): View
     {
-        return view('home');
+        return view('home', [
+            'cortes' => Corte::query()->latest()->limit(3)->get(),
+            'productos' => Producto::query()->latest()->limit(3)->get(),
+        ]);
     }
 
     /**
