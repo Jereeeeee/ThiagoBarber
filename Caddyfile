@@ -3,7 +3,7 @@
 }
 
 :8080 {
-	root * /public
+	root * /app/public
 
 	# Compress responses
 	encode zstd br gzip

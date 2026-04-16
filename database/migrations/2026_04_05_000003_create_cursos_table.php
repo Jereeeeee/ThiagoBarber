@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('titulo')->comment('Nombre comercial del curso de barbería');
             $table->string('slug')->unique()->comment('Identificador de URL único basado en el título');
             $table->string('descripcion')->nullable()->comment('Descripción detallada del curso');
+            $table->string('imagen_path')->nullable()->comment('Ruta relativa de la imagen del curso');
             $table->decimal('precio', 10, 2)->nullable()->comment('Precio en CLP (pesos chilenos)');
             $table->boolean('is_active')->default(true)->comment('0: Oculto, 1: Visible en la web');
             $table->timestamps();
