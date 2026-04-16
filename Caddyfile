@@ -1,0 +1,16 @@
+{
+	frankenphp
+}
+
+:8080 {
+	root * /app/public
+
+	# Compress responses
+	encode zstd br gzip
+
+	# Serve static files directly
+	file_server
+
+	# Pass all requests to index.php (Laravel front controller)
+	php_server
+}
