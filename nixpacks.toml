@@ -1,12 +1,26 @@
-[phases.install]
-cmds = ["composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist"]
-
-[phases.build]
+# 1. Descargamos e instalamos FrankenPHP primero
+[phases.setup_frankenphp]
 cmds = [
-  "php artisan config:cache",
-  "php artisan route:cache",
-  "php artisan view:cache"
+    "curl -L https://github.com/dunglas/frankenphp/releases/latest/download/frankenphp-linux-x86_64 -o /usr/local/bin/frankenphp",
+    "chmod +x /usr/local/bin/frankenphp"
 ]
 
+# 2. Instalamos las dependencias de PHP (espera a que termine el paso 1)
+[phases.install]
+dependsOn = ["setup", "setup_frankenphp"]
+cmds = [
+    "composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist"
+]
+
+# 3. Optimizamos Laravel (espera a que termine el paso 2)
+[phases.build]
+dependsOn = ["install"]
+cmds = [
+    "php artisan config:cache",
+    "php artisan route:cache",
+    "php artisan view:cache"
+]
+
+# 4. Comando de arranque
 [start]
 cmd = "php artisan migrate --force && frankenphp run --config /app/Caddyfile"
