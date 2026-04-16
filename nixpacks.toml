@@ -1,8 +1,7 @@
 [phases.install]
 dependsOn = ["setup"]
 cmds = [
-    "composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist",
-    "npm install" # <--- Instala dependencias de JS
+    "composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist"
 ]
 
 [phases.build]
