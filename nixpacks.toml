@@ -1,12 +1,14 @@
 [phases.install]
+dependsOn = ["setup"]
 cmds = [
-    "composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist"
+    "composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist",
+    "npm install" # <--- Instala dependencias de JS
 ]
 
 [phases.build]
 dependsOn = ["install"]
 cmds = [
-    # Descargamos FrankenPHP directamente en la carpeta del proyecto
+    "npm run build", # <--- Compila CSS y JS (Vite)
     "curl -L https://github.com/dunglas/frankenphp/releases/latest/download/frankenphp-linux-x86_64 -o frankenphp",
     "chmod +x frankenphp",
     "php artisan config:cache",
@@ -15,5 +17,4 @@ cmds = [
 ]
 
 [start]
-# Fíjate que ahora usamos ./frankenphp (ejecutable local)
 cmd = "php artisan migrate --force && ./frankenphp run --config /app/Caddyfile"
