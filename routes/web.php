@@ -10,10 +10,6 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/up', function () {
-    return response('OK', 200);
-});
-
 Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
 });
