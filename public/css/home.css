@@ -475,7 +475,6 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0.24);
     margin-bottom: 14px;
     display: block;
-    filter: grayscale(100%) contrast(1.08);
 }
 
 .card:hover {
@@ -509,6 +508,33 @@ h1 {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
+}
+
+[data-mobile-carousel] {
+    position: relative;
+}
+
+.carousel-dots {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.carousel-dot {
+    width: 9px;
+    height: 9px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.28);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.carousel-dot.is-active {
+    background: rgba(255, 255, 255, 0.96);
+    transform: scale(1.28);
 }
 
 .product-card h4 {
@@ -759,6 +785,37 @@ h1 {
         grid-auto-flow: row;
         overflow: visible;
         padding-bottom: 0;
+    }
+
+    [data-mobile-carousel].is-carousel-active {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 0 4px 8px;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    [data-mobile-carousel].is-carousel-active::-webkit-scrollbar {
+        display: none;
+    }
+
+    [data-mobile-carousel].is-carousel-active > .card {
+        flex: 0 0 84%;
+        width: 84%;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+
+    [data-mobile-carousel].is-carousel-active + .carousel-dots {
+        display: flex;
+    }
+
+    .carousel-dots {
+        margin-top: 10px;
     }
 
     .courses .card,

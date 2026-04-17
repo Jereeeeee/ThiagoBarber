@@ -115,7 +115,7 @@
     <section id="servicios" class="section">
         <div class="container">
             <h3>Cortes de Pelo</h3>
-            <div class="services">
+            <div class="services" data-mobile-carousel data-carousel-label="Cortes de pelo">
                 @forelse ($cortes as $corte)
                     <article class="card">
                         <img class="card-image" src="{{ asset($corte->imagen_path) }}" alt="{{ $corte->titulo }}">
@@ -128,6 +128,7 @@
                     </article>
                 @endforelse
             </div>
+            <div class="carousel-dots" data-carousel-dots aria-label="Indicadores de cortes de pelo"></div>
             <div class="courses-cta">
                 <a class="btn btn-primary" href="{{ route('cortes') }}">Ver mas</a>
             </div>
@@ -137,7 +138,7 @@
     <section id="estilo" class="section">
         <div class="container">
             <h3>Nuestros Productos</h3>
-            <div class="products">
+            <div class="products" data-mobile-carousel data-carousel-label="Productos disponibles">
                 @forelse ($productos as $producto)
                     @php
                         $productoImageSrc = str_starts_with($producto->imagen_path, 'data:image')
@@ -156,6 +157,7 @@
                     </article>
                 @endforelse
             </div>
+            <div class="carousel-dots" data-carousel-dots aria-label="Indicadores de productos"></div>
             <div class="courses-cta">
                 <a class="btn btn-primary" href="{{ route('productos') }}">Ver mas</a>
             </div>

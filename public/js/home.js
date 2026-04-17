@@ -71,6 +71,153 @@ const enableOneTimeEffect = () => {
 const initWelcomePage = () => {
     enableOneTimeEffect();
     initTikTokCarousel();
+    initMobileImageCarousels();
+};
+
+const initMobileImageCarousels = () => {
+    const roots = Array.from(document.querySelectorAll('[data-mobile-carousel]'));
+
+    if (roots.length === 0) {
+        return;
+    }
+
+    const mobileQuery = window.matchMedia('(max-width: 680px)');
+    const states = new Map();
+
+    const updateActiveSlide = (state) => {
+        const { root, track, slides, dots } = state;
+
+        if (!mobileQuery.matches || slides.length === 0) {
+            return;
+        }
+
+        const trackCenter = track.scrollLeft + track.clientWidth / 2;
+        let closestIndex = 0;
+        let closestDistance = Number.POSITIVE_INFINITY;
+
+        slides.forEach((slide, index) => {
+            const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+            const distance = Math.abs(slideCenter - trackCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        state.currentIndex = closestIndex;
+
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('is-active', index === closestIndex);
+        });
+
+        root.dataset.carouselCurrent = String(closestIndex);
+    };
+
+    const activateCarousel = (root) => {
+        const track = root;
+        const slides = Array.from(track.children).filter((child) => child instanceof HTMLElement);
+        const carouselLabel = root.dataset.carouselLabel || 'Imagen';
+
+        if (slides.length <= 1) {
+            root.classList.remove('is-carousel-active');
+            return null;
+        }
+
+        const dotsContainer = root.nextElementSibling;
+
+        if (!dotsContainer || !dotsContainer.matches('[data-carousel-dots]')) {
+            return null;
+        }
+
+        const state = {
+            root,
+            track,
+            slides,
+            dotsContainer,
+            dots: [],
+            currentIndex: 0,
+            scrollRaf: 0,
+            onScroll: null,
+        };
+
+        dotsContainer.innerHTML = '';
+        state.dots = slides.map((slide, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `${carouselLabel} ${index + 1}`);
+            dot.dataset.carouselDot = String(index);
+
+            dot.addEventListener('click', () => {
+                slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+
+            dotsContainer.appendChild(dot);
+            return dot;
+        });
+
+        state.onScroll = () => {
+            if (state.scrollRaf) {
+                return;
+            }
+
+            state.scrollRaf = window.requestAnimationFrame(() => {
+                state.scrollRaf = 0;
+                updateActiveSlide(state);
+            });
+        };
+
+        track.addEventListener('scroll', state.onScroll, { passive: true });
+        root.classList.add('is-carousel-active');
+        updateActiveSlide(state);
+
+        return state;
+    };
+
+    const deactivateCarousel = (state) => {
+        if (!state) {
+            return;
+        }
+
+        state.track.removeEventListener('scroll', state.onScroll);
+        state.root.classList.remove('is-carousel-active');
+        delete state.root.dataset.carouselCurrent;
+        state.dotsContainer.innerHTML = '';
+        if (state.scrollRaf) {
+            window.cancelAnimationFrame(state.scrollRaf);
+        }
+    };
+
+    const syncCarousels = () => {
+        roots.forEach((root) => {
+            const existingState = states.get(root);
+
+            if (!mobileQuery.matches) {
+                deactivateCarousel(existingState);
+                states.delete(root);
+                return;
+            }
+
+            if (existingState) {
+                updateActiveSlide(existingState);
+                return;
+            }
+
+            const nextState = activateCarousel(root);
+            if (nextState) {
+                states.set(root, nextState);
+            }
+        });
+    };
+
+    syncCarousels();
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', syncCarousels);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(syncCarousels);
+    }
 };
 
 const initTikTokCarousel = () => {
