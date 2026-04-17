@@ -1,7 +1,7 @@
 <header class="topbar">
     <div class="container nav" data-nav-root>
         <a class="brand" href="{{ route('home') }}" aria-label="Inicio Thiago Barber">
-            <img class="brand-logo" src="{{ asset('images/icon.svg') }}" alt="Logo Thiago Barber">
+            <img class="brand-logo" src="{{ asset('images/icon.png') }}" alt="Logo Thiago Barber">
         </a>
 
         <button
