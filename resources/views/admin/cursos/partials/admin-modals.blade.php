@@ -14,7 +14,7 @@
 
             <label>
                 <span>Titulo</span>
-                <input type="text" name="titulo" value="{{ old('titulo') }}" placeholder="Ej: Curso Inicial" required>
+                <input type="text" name="titulo" value="{{ old('titulo') }}" placeholder="Ej: Curso Inicial" maxlength="120" required>
                 @error('titulo', 'storeCurso')
                     <small class="field-error">{{ $message }}</small>
                 @enderror
@@ -22,7 +22,7 @@
 
             <label>
                 <span>Descripcion</span>
-                <textarea name="descripcion" rows="4" placeholder="Describe el curso" required>{{ old('descripcion') }}</textarea>
+                <textarea name="descripcion" rows="4" placeholder="Describe el curso" maxlength="255" required>{{ old('descripcion') }}</textarea>
                 @error('descripcion', 'storeCurso')
                     <small class="field-error">{{ $message }}</small>
                 @enderror
@@ -30,7 +30,7 @@
 
             <label>
                 <span>Precio (CLP)</span>
-                <input type="number" name="precio" min="0" step="1" value="{{ old('precio') }}" placeholder="35000" required>
+                <input type="number" name="precio" min="0" max="99999999.99" step="0.01" value="{{ old('precio') }}" placeholder="35000" required>
                 @error('precio', 'storeCurso')
                     <small class="field-error">{{ $message }}</small>
                 @enderror
@@ -74,7 +74,7 @@
 
             <label>
                 <span>Titulo</span>
-                <input type="text" name="titulo" value="{{ old('titulo') }}" placeholder="Ej: Curso Inicial" required data-edit-title>
+                <input type="text" name="titulo" value="{{ old('titulo') }}" placeholder="Ej: Curso Inicial" maxlength="120" required data-edit-title>
                 @error('titulo', 'updateCurso')
                     <small class="field-error">{{ $message }}</small>
                 @enderror
@@ -82,7 +82,7 @@
 
             <label>
                 <span>Descripcion</span>
-                <textarea name="descripcion" rows="4" placeholder="Describe el curso" required data-edit-description>{{ old('descripcion') }}</textarea>
+                <textarea name="descripcion" rows="4" placeholder="Describe el curso" maxlength="255" required data-edit-description>{{ old('descripcion') }}</textarea>
                 @error('descripcion', 'updateCurso')
                     <small class="field-error">{{ $message }}</small>
                 @enderror
@@ -90,7 +90,7 @@
 
             <label>
                 <span>Precio (CLP)</span>
-                <input type="number" name="precio" min="0" step="1" value="{{ old('precio') }}" placeholder="35000" required data-edit-price>
+                <input type="number" name="precio" min="0" max="99999999.99" step="0.01" value="{{ old('precio') }}" placeholder="35000" required data-edit-price>
                 @error('precio', 'updateCurso')
                     <small class="field-error">{{ $message }}</small>
                 @enderror

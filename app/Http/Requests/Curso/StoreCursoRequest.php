@@ -31,9 +31,9 @@ class StoreCursoRequest extends FormRequest
         return [
             'submission_token' => ['required', 'string', 'uuid'],
             'titulo' => ['required', 'string', 'max:120'],
-            'descripcion' => ['required', 'string', 'max:600'],
+            'descripcion' => ['required', 'string', 'max:255'],
             'imagen' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
-            'precio' => ['required', 'numeric', 'min:0', 'max:999999999'],
+            'precio' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
         ];
     }
 
@@ -50,7 +50,7 @@ class StoreCursoRequest extends FormRequest
             'titulo.required' => 'El nombre del curso es obligatorio.',
             'titulo.max' => 'El nombre del curso no puede superar los 120 caracteres.',
             'descripcion.required' => 'La descripcion del curso es obligatoria.',
-            'descripcion.max' => 'La descripcion no puede superar los 600 caracteres.',
+            'descripcion.max' => 'La descripcion no puede superar los 255 caracteres.',
             'imagen.required' => 'Debes subir una imagen para el curso.',
             'imagen.image' => 'El archivo debe ser una imagen valida.',
             'imagen.mimes' => 'La imagen debe ser JPG, JPEG, PNG, WEBP o GIF.',
@@ -58,7 +58,7 @@ class StoreCursoRequest extends FormRequest
             'precio.required' => 'El precio del curso es obligatorio.',
             'precio.numeric' => 'El precio debe ser un numero valido.',
             'precio.min' => 'El precio no puede ser negativo.',
-            'precio.max' => 'El precio es demasiado alto.',
+            'precio.max' => 'El precio no puede superar 99.999.999,99.',
         ];
     }
 }
