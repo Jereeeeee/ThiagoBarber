@@ -62,6 +62,7 @@ class CursoController extends Controller
         ]);
 
         $cursoColumns = $this->cursoColumns();
+        $storedImagePath = $this->storeCursoImage($validated['imagen'], $validated['titulo']);
         $cursoData = [
             'titulo' => $validated['titulo'],
         ];
@@ -74,8 +75,9 @@ class CursoController extends Controller
             $cursoData['descripcion'] = $validated['descripcion'];
         }
 
-        if (isset($cursoColumns['imagen_path'])) {
-            $cursoData['imagen_path'] = $this->storeCursoImage($validated['imagen'], $validated['titulo']);
+        $imageColumn = $this->firstExistingCursoColumn(['imagen_path', 'imagen']);
+        if ($imageColumn !== null) {
+            $cursoData[$imageColumn] = $storedImagePath;
         }
 
         if (isset($cursoColumns['precio'])) {
@@ -106,13 +108,13 @@ class CursoController extends Controller
 
         $validated = $request->validated();
         $cursoColumns = $this->cursoColumns();
-        $newImagePath = $curso->imagen_path;
+        $newImagePath = $this->getCurrentImagePath($curso);
 
         if ($request->hasFile('imagen')) {
             $newImagePath = $this->storeCursoImage($validated['imagen'], $validated['titulo']);
 
-            if (Str::startsWith((string) $curso->imagen_path, 'images/cursos/')) {
-                $oldImageAbsolutePath = public_path($curso->imagen_path);
+            if (Str::startsWith((string) $this->getCurrentImagePath($curso), 'images/cursos/')) {
+                $oldImageAbsolutePath = public_path((string) $this->getCurrentImagePath($curso));
 
                 if (File::exists($oldImageAbsolutePath)) {
                     File::delete($oldImageAbsolutePath);
@@ -132,8 +134,9 @@ class CursoController extends Controller
             $cursoData['descripcion'] = $validated['descripcion'];
         }
 
-        if (isset($cursoColumns['imagen_path'])) {
-            $cursoData['imagen_path'] = $newImagePath;
+        $imageColumn = $this->firstExistingCursoColumn(['imagen_path', 'imagen']);
+        if ($imageColumn !== null) {
+            $cursoData[$imageColumn] = $newImagePath;
         }
 
         if (isset($cursoColumns['precio'])) {
@@ -278,5 +281,43 @@ class CursoController extends Controller
         }
 
         return $columns;
+    }
+
+    /**
+     * Obtener el nombre de la primera columna existente en la tabla cursos.
+     *
+     * @param list<string> $candidates
+     */
+    private function firstExistingCursoColumn(array $candidates): ?string
+    {
+        $columns = $this->cursoColumns();
+
+        foreach ($candidates as $column) {
+            if (isset($columns[$column])) {
+                return $column;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Recuperar la ruta de imagen actual para esquemas nuevos o antiguos.
+     */
+    private function getCurrentImagePath(Curso $curso): ?string
+    {
+        $path = $curso->getAttribute('imagen_path');
+
+        if (is_string($path) && $path !== '') {
+            return $path;
+        }
+
+        $legacyPath = $curso->getAttribute('imagen');
+
+        if (is_string($legacyPath) && $legacyPath !== '') {
+            return $legacyPath;
+        }
+
+        return null;
     }
 }

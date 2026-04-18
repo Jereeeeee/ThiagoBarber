@@ -27,6 +27,7 @@ class Curso extends Model
         'slug',
         'descripcion',
         'imagen_path',
+        'imagen',
         'precio',
         'is_active',
     ];
@@ -48,5 +49,31 @@ class Curso extends Model
     {
         return $this->belongsToMany(User::class, 'cursos_usuario', 'curso_id', 'user_id')
             ->withTimestamps();
+    }
+
+    /**
+     * Compatibilidad: exponer imagen_path aunque la columna legacy sea `imagen`.
+     */
+    public function getImagenPathAttribute($value): ?string
+    {
+        if (is_string($value) && $value !== '') {
+            return $value;
+        }
+
+        $legacy = $this->attributes['imagen'] ?? null;
+
+        return is_string($legacy) && $legacy !== '' ? $legacy : null;
+    }
+
+    /**
+     * Compatibilidad: asumir activo cuando no exista/traiga null en esquemas antiguos.
+     */
+    public function getIsActiveAttribute($value): bool
+    {
+        if ($value === null) {
+            return true;
+        }
+
+        return (bool) $value;
     }
 }
