@@ -28,6 +28,7 @@ class Curso extends Model
         'descripcion',
         'imagen_path',
         'imagen',
+        'image_path',
         'precio',
         'is_active',
     ];
@@ -62,7 +63,13 @@ class Curso extends Model
 
         $legacy = $this->attributes['imagen'] ?? null;
 
-        return is_string($legacy) && $legacy !== '' ? $legacy : null;
+        if (is_string($legacy) && $legacy !== '') {
+            return $legacy;
+        }
+
+        $english = $this->attributes['image_path'] ?? null;
+
+        return is_string($english) && $english !== '' ? $english : null;
     }
 
     /**

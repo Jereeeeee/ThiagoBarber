@@ -75,7 +75,7 @@ class CursoController extends Controller
             $cursoData['descripcion'] = $validated['descripcion'];
         }
 
-        $imageColumn = $this->firstExistingCursoColumn(['imagen_path', 'imagen']);
+        $imageColumn = $this->firstExistingCursoColumn(['imagen_path', 'imagen', 'image_path']);
         if ($imageColumn !== null) {
             $cursoData[$imageColumn] = $storedImagePath;
         }
@@ -134,7 +134,7 @@ class CursoController extends Controller
             $cursoData['descripcion'] = $validated['descripcion'];
         }
 
-        $imageColumn = $this->firstExistingCursoColumn(['imagen_path', 'imagen']);
+        $imageColumn = $this->firstExistingCursoColumn(['imagen_path', 'imagen', 'image_path']);
         if ($imageColumn !== null) {
             $cursoData[$imageColumn] = $newImagePath;
         }
@@ -316,6 +316,12 @@ class CursoController extends Controller
 
         if (is_string($legacyPath) && $legacyPath !== '') {
             return $legacyPath;
+        }
+
+        $englishPath = $curso->getAttribute('image_path');
+
+        if (is_string($englishPath) && $englishPath !== '') {
+            return $englishPath;
         }
 
         return null;

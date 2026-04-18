@@ -51,6 +51,12 @@
 
         <section class="container courses-grid" aria-label="Listado de cursos disponibles">
             @forelse ($cursos as $curso)
+                @php
+                    $cursoImageRaw = $curso->imagen_path ?: 'images/placeholder-card.svg';
+                    $cursoImageSrc = str_starts_with($cursoImageRaw, 'data:image')
+                        ? $cursoImageRaw
+                        : asset($cursoImageRaw);
+                @endphp
                 <article class="course-card">
                     @if ($administradores)
                         <div class="card-actions" aria-label="Acciones de tarjeta">
@@ -63,7 +69,7 @@
                                 data-curso-descripcion="{{ $curso->descripcion }}"
                                 data-curso-precio="{{ (int) $curso->precio }}"
                                 data-curso-activo="{{ $curso->is_active ? '1' : '0' }}"
-                                data-curso-image="{{ asset($curso->imagen_path ?: 'images/placeholder-card.svg') }}"
+                                data-curso-image="{{ $cursoImageSrc }}"
                                 aria-label="Editar tarjeta {{ $curso->titulo }}"
                                 title="Editar tarjeta"
                             >
@@ -83,7 +89,7 @@
                         </div>
                     @endif
 
-                    <img src="{{ asset($curso->imagen_path ?: 'images/placeholder-card.svg') }}" alt="Curso {{ $curso->titulo }}">
+                    <img src="{{ $cursoImageSrc }}" alt="Curso {{ $curso->titulo }}">
                     <h2>{{ $curso->titulo }}</h2>
                     <p>{{ $curso->descripcion }}</p>
                     <p class="price">Desde ${{ number_format((int) $curso->precio, 0, ',', '.') }}</p>
