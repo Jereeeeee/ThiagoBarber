@@ -8,6 +8,7 @@ use App\Models\Curso;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -60,14 +61,32 @@ class CursoController extends Controller
             'curso_submission_tokens' => array_values($submissionTokens),
         ]);
 
-        Curso::query()->create([
+        $cursoColumns = $this->cursoColumns();
+        $cursoData = [
             'titulo' => $validated['titulo'],
-            'slug' => $this->buildUniqueSlug($validated['titulo']),
-            'descripcion' => $validated['descripcion'],
-            'imagen_path' => $this->storeCursoImage($validated['imagen'], $validated['titulo']),
-            'precio' => (float) $validated['precio'],
-            'is_active' => true,
-        ]);
+        ];
+
+        if (isset($cursoColumns['slug'])) {
+            $cursoData['slug'] = $this->buildUniqueSlug($validated['titulo']);
+        }
+
+        if (isset($cursoColumns['descripcion'])) {
+            $cursoData['descripcion'] = $validated['descripcion'];
+        }
+
+        if (isset($cursoColumns['imagen_path'])) {
+            $cursoData['imagen_path'] = $this->storeCursoImage($validated['imagen'], $validated['titulo']);
+        }
+
+        if (isset($cursoColumns['precio'])) {
+            $cursoData['precio'] = (float) $validated['precio'];
+        }
+
+        if (isset($cursoColumns['is_active'])) {
+            $cursoData['is_active'] = true;
+        }
+
+        Curso::query()->create($cursoData);
 
         return redirect()
             ->route('cursos')
@@ -86,6 +105,7 @@ class CursoController extends Controller
         }
 
         $validated = $request->validated();
+        $cursoColumns = $this->cursoColumns();
         $newImagePath = $curso->imagen_path;
 
         if ($request->hasFile('imagen')) {
@@ -100,14 +120,31 @@ class CursoController extends Controller
             }
         }
 
-        $curso->update([
+        $cursoData = [
             'titulo' => $validated['titulo'],
-            'slug' => $this->buildUniqueSlug($validated['titulo'], $curso->id),
-            'descripcion' => $validated['descripcion'],
-            'imagen_path' => $newImagePath,
-            'precio' => (float) $validated['precio'],
-            'is_active' => $request->boolean('is_active'),
-        ]);
+        ];
+
+        if (isset($cursoColumns['slug'])) {
+            $cursoData['slug'] = $this->buildUniqueSlug($validated['titulo'], $curso->id);
+        }
+
+        if (isset($cursoColumns['descripcion'])) {
+            $cursoData['descripcion'] = $validated['descripcion'];
+        }
+
+        if (isset($cursoColumns['imagen_path'])) {
+            $cursoData['imagen_path'] = $newImagePath;
+        }
+
+        if (isset($cursoColumns['precio'])) {
+            $cursoData['precio'] = (float) $validated['precio'];
+        }
+
+        if (isset($cursoColumns['is_active'])) {
+            $cursoData['is_active'] = $request->boolean('is_active');
+        }
+
+        $curso->update($cursoData);
 
         return redirect()
             ->route('cursos')
@@ -167,6 +204,10 @@ class CursoController extends Controller
      */
     private function buildUniqueSlug(string $titulo, ?int $ignoreId = null): string
     {
+        if (! isset($this->cursoColumns()['slug'])) {
+            return Str::slug($titulo) ?: 'curso';
+        }
+
         $baseSlug = Str::slug($titulo);
 
         if ($baseSlug === '') {
@@ -208,5 +249,34 @@ class CursoController extends Controller
         $image->move($directory, $fileName);
 
         return 'images/cursos/'.$fileName;
+    }
+
+    /**
+     * Obtener columnas disponibles en la tabla cursos para tolerar esquemas antiguos.
+     *
+     * @return array<string, bool>
+     */
+    private function cursoColumns(): array
+    {
+        static $columns = null;
+
+        if (is_array($columns)) {
+            return $columns;
+        }
+
+        try {
+            $columns = array_fill_keys(Schema::getColumnListing('cursos'), true);
+        } catch (\Throwable) {
+            $columns = [
+                'titulo' => true,
+                'slug' => true,
+                'descripcion' => true,
+                'imagen_path' => true,
+                'precio' => true,
+                'is_active' => true,
+            ];
+        }
+
+        return $columns;
     }
 }
